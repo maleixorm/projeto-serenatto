@@ -1,57 +1,11 @@
 <?php
-    $produtosCafe = [
-        [
-            'nome' => "Café Cremoso",
-            'descricao' => "Café cremoso irresistivelmente suave e que envolve o seu paladar.",
-            'preco' => "5.00",
-            'imagem' => "img/cafe-cremoso.jpg"
-        ],
-        [
-            'nome' => "Café com Leite",
-            'descricao' => "A harmonia do café e do leite, uma experiência reconfortante.",
-            'preco' => "2.00",
-            'imagem' => "img/cafe-com-leite.jpg"
-        ],
-        [
-            'nome' => "Cappuccino",
-            'descricao' => "Café suave, leite cremoso e uma pitada de sabor adocicado",
-            'preco' => "7.00",
-            'imagem' => "img/cappuccino.jpg"
-        ],
-        [
-            'nome' => "Café Gelado",
-            'descricao' => "Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.",
-            'preco' => "3.00",
-            'imagem' => "img/cafe-gelado.jpg"
-        ]
-    ];
+    require 'src/conexao.php';
+    require 'src/Model/Produto.php';
+    require 'src/Model/Repository/ProdutoRepositorio.php';
 
-    $produtosAlmoco = [
-        [
-            "nome" => "Bife",
-            "descricao" => "Bife, arroz com feijão e uma deliciosa batata frita",
-            "preco" => "27.90",
-            "imagem" => "img/bife.jpg"
-        ],
-        [
-            "nome" => "Filé de peixe",
-            "descricao" => "Filé de peixe salmão assado, arroz, feijão verde e tomate.",
-            "preco" => "24.99",
-            "imagem" => "img/prato-peixe.jpg"
-        ],
-        [
-            "nome" => "Frango",
-            "descricao" => "Saboroso frango à milanesa com batatas fritas, salada de repolho e molho picante",
-            "preco" => "23.00",
-            "imagem" => "img/prato-frango.jpg"
-        ],
-        [
-            "nome" => "Fettuccine",
-            "descricao" => "Prato italiano autêntico da massa do fettuccine com peito de frango grelhado",
-            "preco" => "22.50",
-            "imagem" => "img/fettuccine.jpg"
-        ]
-    ];
+    $produtosRepositorio = new ProdutoRepositorio($pdo);
+    $dadosCafe = $produtosRepositorio->opcoesCafe();
+    $dadosAlmoco = $produtosRepositorio->opcoesAlmoco();
 ?>
 
 <!doctype html>
@@ -84,14 +38,14 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-cafe-manha-produtos">
-                <?php foreach ($produtosCafe as $cafe):?>
+                <?php foreach ($dadosCafe as $cafe):?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="<?php echo $cafe['imagem'] ?>">
+                        <img src="<?php echo $cafe->getImagemDiretorio() ?>">
                     </div>
-                    <p><?php echo $cafe['nome'] ?></p>
-                    <p><?php echo $cafe['descricao'] ?></p>
-                    <p><?php echo "R$ " . $cafe['preco'] ?></p>
+                    <p><?php echo $cafe->getNome() ?></p>
+                    <p><?php echo $cafe->getDescricao() ?></p>
+                    <p><?php echo $cafe->getPrecoFormatado() ?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -102,14 +56,14 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-almoco-produtos">
-                <?php foreach ($produtosAlmoco as $almoco):?>
+                <?php foreach ($dadosAlmoco as $almoco):?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="<?php echo $almoco['imagem'] ?>">
+                        <img src="<?php echo $almoco->getImagemDiretorio() ?>">
                     </div>
-                    <p><?php echo $almoco['nome'] ?></p>
-                    <p><?php echo $almoco['descricao'] ?></p>
-                    <p><?php echo "R$ " . $almoco['preco'] ?></p>
+                    <p><?php echo $almoco->getNome() ?></p>
+                    <p><?php echo $almoco->getDescricao() ?></p>
+                    <p><?php echo $almoco->getPrecoFormatado() ?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
