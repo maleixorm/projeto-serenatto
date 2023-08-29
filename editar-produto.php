@@ -4,14 +4,20 @@
   require "src/Model/Repository/ProdutoRepositorio.php";
 
   $produtoRepositorio = new ProdutoRepositorio($pdo);
-  if (isset($_POST['editar'])) {
-    $produto = new Produto($_POST['id'], $_POST['tipo'], $_POST['nome'], $_POST['descricao'], $_POST['preco']);
-    $produtoRepositorio->atualizar($produto);
-    header("Location: admin.php");
-  } else {
-      $produto = $produtoRepositorio->buscar($_GET['id']);
-  }
 
+    if (isset($_POST['editar'])){
+        $produto = new Produto($_POST['id'], $_POST['tipo'], $_POST['nome'], $_POST['descricao'], $_POST['preco']);
+
+        if (isset($_FILES['imagem'])){
+            $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
+            move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemDiretorio());
+        }
+
+        $produtoRepositorio->atualizar($produto);
+        header("Location: admin.php");
+    }else{
+        $produto = $produtoRepositorio->buscar($_GET['id']);
+    }
 ?>
 
 <!doctype html>
